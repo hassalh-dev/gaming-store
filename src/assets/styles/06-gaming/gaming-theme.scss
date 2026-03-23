@@ -1,0 +1,264 @@
+// ── Gaming Theme — Netflix Dark Style ─────────────────────────────────────
+
+:root {
+  --neon:           #e50914;
+  --neon-deep:      #b20710;
+  --neon-light:     #ff4d57;
+  --neon-glow:      rgba(229, 9, 20, 0.5);
+
+  --dark:           #0a0a0a;
+  --dark-2:         #111111;
+  --dark-surface:   #141414;
+  --dark-card:      #1a1a1a;
+  --dark-border:    #2a2a2a;
+  --dark-muted:     #222222;
+
+  --text-primary:   #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted:     #666666;
+
+  --glow-xs: 0 0 6px  rgba(229, 9, 20, 0.35);
+  --glow-sm: 0 0 12px rgba(229, 9, 20, 0.45);
+  --glow-md: 0 0 24px rgba(229, 9, 20, 0.55), 0 0 48px rgba(229, 9, 20, 0.2);
+  --glow-lg: 0 0 40px rgba(229, 9, 20, 0.65), 0 0 80px rgba(229, 9, 20, 0.3);
+  --glow-text: 0 0 12px rgba(229, 9, 20, 0.7);
+
+  --grad-primary:   linear-gradient(135deg, #e50914 0%, #b20710 100%);
+  --grad-primary-h: linear-gradient(90deg, #ff4d57 0%, #e50914 50%, #b20710 100%);
+  --grad-dark:      linear-gradient(180deg, #141414 0%, #0a0a0a 100%);
+  --grad-card:      linear-gradient(160deg, #1e1e1e 0%, #141414 100%);
+
+  // Override purple variables
+  --neon-light:     #ff4d57;
+  --grad-purple:    linear-gradient(135deg, #e50914 0%, #b20710 100%);
+  --grad-purple-h:  linear-gradient(90deg, #ff4d57 0%, #e50914 50%, #b20710 100%);
+}
+
+// ── Global Dark Background ─────────────────────────────────────────────────
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: var(--dark) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-main), 'Cairo', sans-serif;
+}
+
+// Scrollbar
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--dark-2); }
+::-webkit-scrollbar-thumb {
+  background: var(--neon-deep);
+  border-radius: 999px;
+}
+
+// Selection
+::selection {
+  background: var(--neon);
+  color: #fff;
+}
+
+// ── Sections Background ────────────────────────────────────────────────────
+
+.categories-section { background: var(--dark-2) !important; }
+.games-section      { background: var(--dark) !important; }
+.products-section   { background: var(--dark-surface) !important; }
+
+.stats-section {
+  background: var(--grad-primary) !important;
+}
+
+// ── Header Override ────────────────────────────────────────────────────────
+
+.site-header {
+  background: rgba(10, 10, 10, 0.97) !important;
+  border-bottom-color: rgba(229, 9, 20, 0.2) !important;
+
+  &.scrolled {
+    border-bottom-color: rgba(229, 9, 20, 0.4) !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.6), 0 1px 0 rgba(229,9,20,0.1) !important;
+  }
+}
+
+.announcement-bar {
+  background: var(--grad-primary) !important;
+}
+
+// ── Buttons Override ───────────────────────────────────────────────────────
+
+.btn-primary {
+  background: var(--grad-primary) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 700;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    inset-inline-start: -60%;
+    width: 30%;
+    height: 100%;
+    background: rgba(255,255,255,0.2);
+    transform: skewX(-20deg) translateY(-50%);
+    transition: inset-inline-start 0.4s ease;
+  }
+
+  &:hover::before {
+    inset-inline-start: 130%;
+  }
+
+  &:hover {
+    box-shadow: var(--glow-sm) !important;
+    transform: translateY(-2px);
+  }
+}
+
+.btn-outline {
+  border-color: rgba(229, 9, 20, 0.6) !important;
+  color: #fff !important;
+
+  &:hover {
+    background: var(--grad-primary) !important;
+    border-color: transparent !important;
+  }
+}
+
+// ── Product Card Override ──────────────────────────────────────────────────
+
+.product-card {
+  background: var(--dark-card) !important;
+  border-color: var(--dark-border) !important;
+
+  &:hover {
+    border-color: rgba(229, 9, 20, 0.5) !important;
+    box-shadow: var(--glow-md) !important;
+  }
+
+  .card-price ins {
+    color: var(--neon-light) !important;
+    text-shadow: 0 0 8px rgba(229, 9, 20, 0.4) !important;
+  }
+}
+
+// ── Category Card Override ─────────────────────────────────────────────────
+
+.category-card {
+  border-color: var(--dark-border) !important;
+  background: var(--dark-card) !important;
+
+  &:hover {
+    border-color: rgba(229, 9, 20, 0.6) !important;
+    box-shadow: var(--glow-sm) !important;
+  }
+
+  .cat-badge {
+    background: rgba(229, 9, 20, 0.2) !important;
+    border-color: rgba(229, 9, 20, 0.4) !important;
+    color: var(--neon-light) !important;
+  }
+}
+
+// ── Game Card Override ─────────────────────────────────────────────────────
+
+.game-card {
+  border-color: var(--dark-border) !important;
+  background: var(--dark-card) !important;
+
+  &:hover {
+    border-color: rgba(229, 9, 20, 0.6) !important;
+    box-shadow: var(--glow-sm) !important;
+  }
+
+  .game-name {
+    background: var(--dark-card) !important;
+    border-top-color: var(--dark-border) !important;
+
+    &::before, &::after {
+      color: var(--neon-light) !important;
+    }
+  }
+}
+
+// ── Section Header Override ────────────────────────────────────────────────
+
+.section-header {
+  border-bottom-color: var(--dark-border) !important;
+
+  &::after {
+    background: var(--grad-primary) !important;
+  }
+}
+
+.section-title { color: var(--text-primary) !important; }
+.section-link  { color: var(--neon-light) !important; }
+
+// ── Hero Override ──────────────────────────────────────────────────────────
+
+.hero {
+  background: var(--dark) !important;
+
+  .hero-label {
+    background: rgba(229, 9, 20, 0.15) !important;
+    border-color: rgba(229, 9, 20, 0.4) !important;
+    color: var(--neon-light) !important;
+  }
+
+  .hero-title em {
+    color: var(--neon-light) !important;
+    text-shadow: var(--glow-text) !important;
+  }
+
+  .hero-border {
+    background: var(--grad-primary-h) !important;
+  }
+}
+
+// ── Footer Override ────────────────────────────────────────────────────────
+
+.site-footer {
+  background: var(--dark-2) !important;
+  border-top-color: rgba(229, 9, 20, 0.2) !important;
+}
+
+.footer-col-title {
+  color: var(--text-primary) !important;
+  border-bottom-color: rgba(229, 9, 20, 0.3) !important;
+
+  &::after {
+    background: var(--neon) !important;
+  }
+}
+
+.footer-links li a {
+  color: var(--text-secondary) !important;
+
+  &::before { color: var(--neon-light) !important; }
+  &:hover   { color: var(--text-primary) !important; }
+}
+
+.footer-social a:hover {
+  background: var(--neon) !important;
+  border-color: var(--neon) !important;
+  box-shadow: var(--glow-xs) !important;
+}
+
+.footer-bottom {
+  border-top-color: var(--dark-border) !important;
+}
+
+.footer-copy span { color: var(--neon-light) !important; }
+
+.newsletter-form {
+  input:focus {
+    border-color: rgba(229, 9, 20, 0.6) !important;
+    box-shadow: var(--glow-xs) !important;
+  }
+
+  button {
+    background: var(--grad-primary) !important;
+    &:hover { box-shadow: var(--glow-sm) !important; }
+  }
+}
