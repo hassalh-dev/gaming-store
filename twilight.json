@@ -1,9 +1,9 @@
 {
     "name": {
-        "ar": "رائد",
+        "ar": "Gaming-Store",
         "en": "Theme Raed"
     },
-    "repository": "https://github.com/SallaApp/theme-raed",
+    "repository": "https://github.com/hassalh-dev/gaming-store",
     "author_email": "support@salla.sa",
     "features": [
         "mega-menu",
