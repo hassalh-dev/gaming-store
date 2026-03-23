@@ -285,3 +285,19 @@ isElementLoaded(selector){
 }
 
 salla.onReady(() => (new App).loadTheApp());
+
+// ── Sticky Header ─────────────────────────────────────────────────────────
+
+const header = document.getElementById('site-header');
+if (header) {
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+}
+
+// ── Hero BG Loaded ────────────────────────────────────────────────────────
+
+const heroBg = document.querySelector('.hero-bg-image');
+if (heroBg) {
+  setTimeout(() => heroBg.classList.add('loaded'), 100);
+}

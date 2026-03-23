@@ -1,33 +1,71 @@
-{#
-| Variable                       | Type     | Description                                                                  |
-|--------------------------------|----------|------------------------------------------------------------------------------|
-| component                      | object   | Contains merchant settings for fields from twilight.json `component` section |
-| component.slides[].image       | string   | Image url                                                                    |
-| component.slides[].title       | ?string  |                                                                              |
-| component.slides[].description | ?string  |                                                                              |
-| component.slides               | object[] | list of slides                                                               |
-| position                       | int      | Sorting number start from zero                                               |
-#}
-<section class="s-block s-block--hero-slider s-block--full-bg wide-placeholder"> 
-    <salla-slider 
-      id="main-slider-{{ position }}"
-      auto-play
-      static-when-single
-      slider-config='{"lazy":"false"}'
-      {{ component.slides|length > 1 ? '' : 'show-controls="false"' }}
-      type="fullwidth">
-        <div slot="items">
-            {% for slide in component.slides %}
-                <div class="swiper-slide w-full min-h-[300px] lg:min-h-[528px] bg-dark relative">
-					<div style="background-image: url({{ slide.image }});" class="{{ slide.without_overlay ? '' : 'overlay-bg' }} bg-cover bg-center absolute inset-0"></div>
-                    <div class="flex-center container pb-16 sm:pb-0 home-slider__content relative h-full">
-                        <div class=" w-4/6 text-center md:w-7/12 lg:w-5/12 text-white">
-                            <h2 data-swiper-parallax="-500" class="lg:text-title-size font-bold leading-tight mb-4">{{ slide.title }}</h2>
-                            <p data-swiper-parallax="-300" class="line-clamp-2 description">{{ slide.description }}</p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </salla-slider>
-</section> 
+{# src/views/components/home/enhanced-slider.twig #}
+
+<section class="hero" id="hero">
+
+  {# Particles Canvas #}
+  <canvas id="hero-particles" aria-hidden="true"></canvas>
+
+  {# Background Image #}
+  {% if section.background_image %}
+    <div class="hero-bg-image"
+         style="background-image: url({{ section.background_image|cdn(1920) }})">
+    </div>
+  {% endif %}
+
+  {# Overlay #}
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  {# Content #}
+  <div class="hero-content">
+
+    <div style="max-width: 620px;">
+
+      {# Label #}
+      {% if section.label %}
+        <span class="hero-label">
+          🎮 {{ section.label }}
+        </span>
+      {% else %}
+        <span class="hero-label">
+          🎮 متجر الألعاب الرقمية
+        </span>
+      {% endif %}
+
+      {# Title #}
+      <h1 class="hero-title">
+        {% if section.title %}
+          {{ section.title }}
+        {% else %}
+          شحن فوري لـ <em>ألعابك المفضلة</em>
+        {% endif %}
+      </h1>
+
+      {# Subtitle #}
+      <p class="hero-subtitle">
+        {% if section.subtitle %}
+          {{ section.subtitle }}
+        {% else %}
+          اشحن PUBG، Free Fire، Fortnite وأكثر من 50 لعبة — بأسرع وقت وأفضل سعر
+        {% endif %}
+      </p>
+
+      {# Actions #}
+      <div class="hero-actions">
+        <a href="{{ store.url }}/store/products"
+           class="btn btn-primary btn-primary--pulse">
+          🛒 تسوق الآن
+        </a>
+        <a href="{{ store.url }}/store/categories"
+           class="btn btn-outline">
+          📂 التصنيفات
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+  {# Bottom Border Shimmer #}
+  <div class="hero-border" aria-hidden="true"></div>
+
+</section>

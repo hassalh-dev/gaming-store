@@ -1,14 +1,253 @@
-{#
-| Variable         | Type       | Description                                                         |
-|------------------|------------|---------------------------------------------------------------------|
-| page             | object     |                                                                     |
-| page.title       | string     | *could be html                                                      |
-| page.slug        | string     | ex: "cat.show"                                                      |
-#}
-{% extends "layouts.master" %}
+{# src/views/pages/index.twig #}
+{% extends 'layouts.master' %}
+
 {% block content %}
-    {% component home %}
+
+  {# ── Hero Slider ── #}
+  {% for section in store.sections %}
+    {% if section.type == 'slider' %}
+      {% include 'components/home/enhanced-slider' with { section: section } %}
+    {% endif %}
+  {% endfor %}
+
+  {# ── Categories Section ── #}
+  <section class="categories-section">
+    <div class="section-container">
+
+      <div class="section-header" data-reveal>
+        <h2 class="section-title">
+          <span class="title-icon">🎮</span>
+          تصنيفات الألعاب
+        </h2>
+        <a href="{{ store.url }}/store/categories" class="section-link">
+          عرض الكل
+          <i class="sicon-arrow-left rtl:inline ltr:hidden"></i>
+          <i class="sicon-arrow-right ltr:inline rtl:hidden"></i>
+        </a>
+      </div>
+
+      <div class="categories-grid">
+        {% for category in store.categories|slice(0, 6) %}
+          <a href="{{ category.url }}" class="category-card" data-reveal>
+            {% if category.image %}
+              <img class="cat-image"
+                   src="{{ category.image|cdn(400) }}"
+                   alt="{{ category.name }}"
+                   loading="lazy">
+            {% endif %}
+            <div class="cat-overlay"></div>
+            <div class="cat-body">
+              <span class="cat-name">{{ category.name }}</span>
+              <span class="cat-badge">{{ category.products_count }} منتج</span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+
+  {# ── Featured Products (نشدات لك) ── #}
+  {% for section in store.sections %}
+    {% if section.type == 'featured_products' %}
+      <section class="products-section">
+        <div class="section-container">
+
+          <div class="section-header" data-reveal>
+            <h2 class="section-title">
+              <span class="title-icon">⭐</span>
+              {{ section.title }}
+            </h2>
+            <a href="{{ store.url }}/store/products" class="section-link">
+              عرض الكل
+              <i class="sicon-arrow-left rtl:inline ltr:hidden"></i>
+            </a>
+          </div>
+
+          <div class="products-grid">
+            {% for product in section.products %}
+              <div class="product-card" data-reveal>
+
+                <div class="card-image">
+                  <img src="{{ product.image ? product.image|cdn(400) : 'images/placeholder.png'|asset }}"
+                       alt="{{ product.name }}"
+                       loading="lazy">
+                  {% if product.is_on_sale %}
+                    <span class="badge-sale">-{{ product.discount_percent }}%</span>
+                  {% endif %}
+                  <div class="card-wishlist">
+                    <salla-wishlist-button product-id="{{ product.id }}"></salla-wishlist-button>
+                  </div>
+                </div>
+
+                <div class="card-body">
+                  <span class="card-title">{{ product.name }}</span>
+                  <div class="card-price">
+                    {% if product.is_on_sale %}
+                      <ins>{{ product.sale_price }}</ins>
+                      <del>{{ product.price }}</del>
+                    {% else %}
+                      <ins>{{ product.price }}</ins>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <salla-add-product-button product-id="{{ product.id }}">
+                    أضف للسلة
+                  </salla-add-product-button>
+                </div>
+
+              </div>
+            {% endfor %}
+          </div>
+
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+
+  {# ── Games Row ── #}
+  {% for section in store.sections %}
+    {% if section.type == 'brands' %}
+      <section class="games-section">
+        <div class="section-container">
+
+          <div class="section-header" data-reveal>
+            <h2 class="section-title">
+              <span class="title-icon">🕹️</span>
+              الألعاب المتاحة
+            </h2>
+          </div>
+
+          <div class="games-grid">
+            {% for brand in section.brands %}
+              <a href="{{ brand.url }}" class="game-card" data-reveal>
+                <img class="game-img"
+                     src="{{ brand.logo|cdn(300) }}"
+                     alt="{{ brand.name }}"
+                     loading="lazy">
+                <span class="game-name">{{ brand.name }}</span>
+              </a>
+            {% endfor %}
+          </div>
+
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+
+  {# ── Promo Banner ── #}
+  {% for section in store.sections %}
+    {% if section.type == 'parallax_background' %}
+      <div class="section-container">
+        <div class="promo-banner" data-reveal>
+          {% if section.background_image %}
+            <div class="banner-bg"
+                 style="background-image: url({{ section.background_image|cdn(1200) }})">
+            </div>
+          {% endif %}
+          <div class="banner-overlay"></div>
+          <div class="banner-content">
+            <h2 class="banner-title">{{ section.title }}</h2>
+            {% if section.subtitle %}
+              <p class="banner-subtitle">{{ section.subtitle }}</p>
+            {% endif %}
+            {% if section.button_text %}
+              <a href="{{ section.button_url }}" class="btn btn-primary">
+                {{ section.button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  {# ── Products Slider ── #}
+  {% for section in store.sections %}
+    {% if section.type == 'products_slider' %}
+      <section class="products-section">
+        <div class="section-container">
+
+          <div class="section-header" data-reveal>
+            <h2 class="section-title">
+              <span class="title-icon">🔥</span>
+              {{ section.title }}
+            </h2>
+            <a href="{{ store.url }}/store/products" class="section-link">
+              عرض الكل <i class="sicon-arrow-left rtl:inline ltr:hidden"></i>
+            </a>
+          </div>
+
+          <div class="products-grid">
+            {% for product in section.products %}
+              <div class="product-card" data-reveal>
+                <div class="card-image">
+                  <img src="{{ product.image ? product.image|cdn(400) : 'images/placeholder.png'|asset }}"
+                       alt="{{ product.name }}" loading="lazy">
+                  {% if product.is_on_sale %}
+                    <span class="badge-sale">-{{ product.discount_percent }}%</span>
+                  {% endif %}
+                  <div class="card-wishlist">
+                    <salla-wishlist-button product-id="{{ product.id }}"></salla-wishlist-button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <span class="card-title">{{ product.name }}</span>
+                  <div class="card-price">
+                    {% if product.is_on_sale %}
+                      <ins>{{ product.sale_price }}</ins>
+                      <del>{{ product.price }}</del>
+                    {% else %}
+                      <ins>{{ product.price }}</ins>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <salla-add-product-button product-id="{{ product.id }}">
+                    أضف للسلة
+                  </salla-add-product-button>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+
+  {# ── Stats Section ── #}
+  <section class="stats-section" data-reveal>
+    <div class="section-container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">+5000</span>
+          <span class="stat-label">عميل راضٍ</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">+12000</span>
+          <span class="stat-label">طلب مكتمل</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">+255</span>
+          <span class="stat-label">منتج متاح</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ── Store Features ── #}
+  {% for section in store.sections %}
+    {% if section.type == 'store_features' %}
+      {% include 'components/home/store-features' with { section: section } %}
+    {% endif %}
+  {% endfor %}
+
 {% endblock %}
+
 {% block scripts %}
-    <script defer src="{{ 'home.js' | asset }}"></script>
+  {{ parent() }}
+  <script src="{{ 'home.js'|asset }}" defer></script>
 {% endblock %}
